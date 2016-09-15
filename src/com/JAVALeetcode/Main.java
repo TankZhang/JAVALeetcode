@@ -57,12 +57,27 @@ class Leaf extends  Mid{
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        String str = sc.next();
-
-        System.out.println(myAtoi(str));
+        //Scanner sc = new Scanner(System.in);
+        //String str = sc.next();
+        myPow(1.0,32);
+        System.out.println();
     }
 
+    //region 50. Pow(x, n)   https://leetcode.com/problems/powx-n/
+    static  double myPow(double x, int n) {
+        //return  Math.pow(x,n);
+        if(n==0)
+            return  1;
+        if(n==1)
+            return  x;
+        if(n<0)
+            return  1/x*(myPow(1/x,-(n+1)));
+        double y=myPow(x,n/2);
+        double z=y*y;
+        return  (n%2==0)?z:z*x;
+    }
+
+    //endregion
 
     //region 8. String to Integer (atoi)
     //https://leetcode.com/problems/string-to-integer-atoi/
