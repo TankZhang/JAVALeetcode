@@ -70,57 +70,93 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        new SwingComponet().init();
+        System.out.println(compareVersion("1.00", "1"));
 
     }
 
-    //region Test12_2 Swing shixian
-    public static  class  SwingComponet{
-        JFrame f=new JFrame("Test");
-        Icon icoOk=new ImageIcon("ico/ok.png");
-        JButton jbtnOk=new JButton("confirm",icoOk);
-        JRadioButton jradibtnMale=new JRadioButton("male",true);
-        JRadioButton jradibtnFemale=new JRadioButton("female",false);
-        ButtonGroup bg=new ButtonGroup();
+    //region Leetcode:165. Compare Version Numbers https://leetcode.com/problems/compare-version-numbers/
+    static int compareVersion(String version1, String version2) {
+        String[] strs1 = version1.split("\\.");
+        String[] strs2 = version2.split("\\.");
+        int l1=strs1.length;
+        int l2=strs2.length;
+        int[] ints1 = new int[l1];
+        int[] ints2 = new int[l2];
+        int count = l1< l2 ? l1:l2;
+        for (int i = 0; i < count; i++) {
+            int a = Integer.parseInt(strs1[i]);
+            int b = Integer.parseInt(strs2[i]);
+            if (a < b)
+                return -1;
+            if (a > b)
+                return 1;
+        }
+        if(l1==l2)
+            return  0;
+        else if(l1<l2){
+            for(int i=l1;i<l2;i++)
+                if(!Pattern.matches("0+",strs2[i]))
+                    return  -1;
+            return  0;
+        }
+        else {
+            for(int i=l2;i<l1;i++)
+                if(!Pattern.matches("0+",strs1[i]))
+                    return  1;
+            return  0;
+        }
+    }
+    //endregion
 
-        public  void  init(){
-            JPanel jpBottom=new JPanel();
+    //region Test12_2 Swing shixian
+    public static class SwingComponet {
+        JFrame f = new JFrame("Test");
+        Icon icoOk = new ImageIcon("ico/ok.png");
+        JButton jbtnOk = new JButton("confirm", icoOk);
+        JRadioButton jradibtnMale = new JRadioButton("male", true);
+        JRadioButton jradibtnFemale = new JRadioButton("female", false);
+        ButtonGroup bg = new ButtonGroup();
+
+        public void init() {
+            JPanel jpBottom = new JPanel();
             jpBottom.add(jbtnOk);
-            f.add(jpBottom,BorderLayout.SOUTH);
+            f.add(jpBottom, BorderLayout.SOUTH);
             bg.add(jradibtnFemale);
             bg.add(jradibtnMale);
             f.setVisible(true);
-            JPanel jpCheck=new JPanel();
+            JPanel jpCheck = new JPanel();
             jpCheck.add(jradibtnFemale);
             jpCheck.add(jradibtnMale);
             f.add(jpCheck);
             f.pack();
-            }
         }
+    }
 
     //endregion
 
     //region Test11_5_1 多事件触发
-     class Test11_5_1{
-        Frame f=new Frame("Test");
-        TextArea ta=new TextArea(6,40);
-        Button b1=new Button("buton1");
-        Button btn2=new Button("btn2");
-        public  void  init(){
-            FirstListener f1=new FirstListener();
+    class Test11_5_1 {
+        Frame f = new Frame("Test");
+        TextArea ta = new TextArea(6, 40);
+        Button b1 = new Button("buton1");
+        Button btn2 = new Button("btn2");
+
+        public void init() {
+            FirstListener f1 = new FirstListener();
             b1.addActionListener(f1);
             b1.addActionListener(new SecondListener());
             btn2.addActionListener(f1);
             f.add(ta);
-            Panel p=new Panel();
+            Panel p = new Panel();
             p.add((b1));
             p.add(btn2);
-            f.add(p,BorderLayout.SOUTH);
+            f.add(p, BorderLayout.SOUTH);
             f.pack();
             f.setVisible(true);
             f.addWindowListener(new MyListenner());
         }
-        class  MyListenner implements WindowListener{
+
+        class MyListenner implements WindowListener {
             @Override
             public void windowOpened(WindowEvent e) {
                 ta.append("first open\n");
@@ -157,34 +193,38 @@ public class Main {
                 ta.append("lost focus\n");
             }
         }
-        class FirstListener implements  ActionListener{
+
+        class FirstListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ta.append("the first listener "+e.getActionCommand()+"\n");
+                ta.append("the first listener " + e.getActionCommand() + "\n");
             }
         }
-        class  SecondListener implements  ActionListener{
+
+        class SecondListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ta.append("clicked"+ e.getActionCommand()+"\n");
+                ta.append("clicked" + e.getActionCommand() + "\n");
             }
         }
     }
     //endregion
 
     //region Test11.5 事件
-    public static  class Test11_5{
-        private  Frame f=new Frame("testEvent");
-        private  Button ok=new Button("confirm");
-        TextField tf=new TextField(30);
-        void  init(){
+    public static class Test11_5 {
+        private Frame f = new Frame("testEvent");
+        private Button ok = new Button("confirm");
+        TextField tf = new TextField(30);
+
+        void init() {
             ok.addActionListener(new OkListenner());
             f.add(tf);
-            f.add(ok,BorderLayout.SOUTH);
+            f.add(ok, BorderLayout.SOUTH);
             f.pack();
             f.setVisible(true);
         }
-        class OkListenner implements ActionListener{
+
+        class OkListenner implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("user has clicked the ok");
@@ -214,11 +254,11 @@ public class Main {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     d2.setVisible(true);
-                    System.out.println(d2.getDirectory()+d2.getFile());
+                    System.out.println(d2.getDirectory() + d2.getFile());
                 }
             });
             f.add(b1);
-            f.add(b2,BorderLayout.SOUTH);
+            f.add(b2, BorderLayout.SOUTH);
             f.pack();
             f.setVisible(true);
         }
@@ -227,7 +267,7 @@ public class Main {
     //endregion
 
     //region AWT11.2
-     static void Test11_2() {
+    static void Test11_2() {
         Frame f = new Frame("testwindow");
         Panel p = new Panel();
         p.add(new TextField(20));
