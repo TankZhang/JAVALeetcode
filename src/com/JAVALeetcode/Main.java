@@ -1,5 +1,14 @@
 package com.JAVALeetcode;
 
+import com.sun.java.accessibility.util.java.awt.ButtonTranslator;
+import javafx.scene.layout.Pane;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -61,22 +70,185 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        T10_4_2();
+        new SwingComponet().init();
 
     }
 
+    //region Test12_2 Swing shixian
+    public static  class  SwingComponet{
+        JFrame f=new JFrame("Test");
+        Icon icoOk=new ImageIcon("ico/ok.png");
+        JButton jbtnOk=new JButton("confirm",icoOk);
+        JRadioButton jradibtnMale=new JRadioButton("male",true);
+        JRadioButton jradibtnFemale=new JRadioButton("female",false);
+        ButtonGroup bg=new ButtonGroup();
+
+        public  void  init(){
+            JPanel jpBottom=new JPanel();
+            jpBottom.add(jbtnOk);
+            f.add(jpBottom,BorderLayout.SOUTH);
+            bg.add(jradibtnFemale);
+            bg.add(jradibtnMale);
+            f.setVisible(true);
+            JPanel jpCheck=new JPanel();
+            jpCheck.add(jradibtnFemale);
+            jpCheck.add(jradibtnMale);
+            f.add(jpCheck);
+            f.pack();
+            }
+        }
+
+    //endregion
+
+    //region Test11_5_1 多事件触发
+     class Test11_5_1{
+        Frame f=new Frame("Test");
+        TextArea ta=new TextArea(6,40);
+        Button b1=new Button("buton1");
+        Button btn2=new Button("btn2");
+        public  void  init(){
+            FirstListener f1=new FirstListener();
+            b1.addActionListener(f1);
+            b1.addActionListener(new SecondListener());
+            btn2.addActionListener(f1);
+            f.add(ta);
+            Panel p=new Panel();
+            p.add((b1));
+            p.add(btn2);
+            f.add(p,BorderLayout.SOUTH);
+            f.pack();
+            f.setVisible(true);
+            f.addWindowListener(new MyListenner());
+        }
+        class  MyListenner implements WindowListener{
+            @Override
+            public void windowOpened(WindowEvent e) {
+                ta.append("first open\n");
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ta.append("close windows\n");
+                System.exit(0);
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                ta.append("closed\n");
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+                ta.append("minimized\n");
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                ta.append("reserve\n");
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+                ta.append("jihuop\n");
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                ta.append("lost focus\n");
+            }
+        }
+        class FirstListener implements  ActionListener{
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ta.append("the first listener "+e.getActionCommand()+"\n");
+            }
+        }
+        class  SecondListener implements  ActionListener{
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ta.append("clicked"+ e.getActionCommand()+"\n");
+            }
+        }
+    }
+    //endregion
+
+    //region Test11.5 事件
+    public static  class Test11_5{
+        private  Frame f=new Frame("testEvent");
+        private  Button ok=new Button("confirm");
+        TextField tf=new TextField(30);
+        void  init(){
+            ok.addActionListener(new OkListenner());
+            f.add(tf);
+            f.add(ok,BorderLayout.SOUTH);
+            f.pack();
+            f.setVisible(true);
+        }
+        class OkListenner implements ActionListener{
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("user has clicked the ok");
+                tf.setText("Hello world");
+            }
+        }
+    }
+    //endregion
+
+    //region AWT11.4
+    public static class Test11_4 {
+        Frame f = new Frame("Test11-4");
+        FileDialog d1 = new FileDialog(f, "select file", FileDialog.LOAD);
+        FileDialog d2 = new FileDialog(f, "select file to save", FileDialog.SAVE);
+        Button b1 = new Button("open file");
+        Button b2 = new Button("save file");
+
+        public void init() {
+
+            b1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    d1.setVisible((true));
+                    System.out.println(d1.getDirectory() + d1.getFile());
+                }
+            });
+            b2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    d2.setVisible(true);
+                    System.out.println(d2.getDirectory()+d2.getFile());
+                }
+            });
+            f.add(b1);
+            f.add(b2,BorderLayout.SOUTH);
+            f.pack();
+            f.setVisible(true);
+        }
+
+    }
+    //endregion
+
+    //region AWT11.2
+     static void Test11_2() {
+        Frame f = new Frame("testwindow");
+        Panel p = new Panel();
+        p.add(new TextField(20));
+        p.add(new Button("click me"));
+        f.add(p);
+        f.setBounds(30, 30, 400, 800);
+        f.setVisible(true);
+    }
+
+    //endregion
     //region throwTest
-    public  static  void  throwChecked(int a)
-            throws  IOException{
-            System.out.println(a);
+    public static void throwChecked(int a)
+            throws IOException {
+        System.out.println(a);
     }
 
-    public  static  void  throwRuntime(int a) {
-        System.out.println(a*2);
+    public static void throwRuntime(int a) {
+        System.out.println(a * 2);
     }
 
-    public  static void T10_4_2()
-    {
+    public static void T10_4_2() {
         //throwChecked(4);
         //throwRuntime(8);
 
@@ -84,49 +256,46 @@ public class Main {
     //endregion
 
     //region 50. Pow(x, n)   https://leetcode.com/problems/powx-n/
-    static  double myPow(double x, int n) {
+    static double myPow(double x, int n) {
         //return  Math.pow(x,n);
-        if(n==0)
-            return  1;
-        if(n==1)
-            return  x;
-        if(n<0)
-            return  1/x*(myPow(1/x,-(n+1)));
-        double y=myPow(x,n/2);
-        double z=y*y;
-        return  (n%2==0)?z:z*x;
+        if (n == 0)
+            return 1;
+        if (n == 1)
+            return x;
+        if (n < 0)
+            return 1 / x * (myPow(1 / x, -(n + 1)));
+        double y = myPow(x, n / 2);
+        double z = y * y;
+        return (n % 2 == 0) ? z : z * x;
     }
     //endregion
 
     //region 8. String to Integer (atoi)
     //https://leetcode.com/problems/string-to-integer-atoi/
     static int myAtoi(String str) {
-        while(str.startsWith(" "))
+        while (str.startsWith(" "))
             str = str.substring(1);
-        boolean flag=true;
-        long res=0;
-        if(str.startsWith("+"))
-            str=str.substring(1);
-        else if(str.startsWith("-")){
-            str=str.substring(1);
-            flag=false;
+        boolean flag = true;
+        long res = 0;
+        if (str.startsWith("+"))
+            str = str.substring(1);
+        else if (str.startsWith("-")) {
+            str = str.substring(1);
+            flag = false;
         }
-        for (int i=0;i<str.length();i++)
-        {
-            if(Character.isDigit(str.charAt(i))){
-                res=res*10+Integer.parseInt(String.valueOf(str.charAt(i)));
-                if(res>Integer.MAX_VALUE)
-                {
-                    if(flag)
-                        return  2147483647;
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isDigit(str.charAt(i))) {
+                res = res * 10 + Integer.parseInt(String.valueOf(str.charAt(i)));
+                if (res > Integer.MAX_VALUE) {
+                    if (flag)
+                        return 2147483647;
                     else
-                        return  -2147483648;
+                        return -2147483648;
                 }
-            }
-            else
+            } else
                 break;
         }
-        return  (int)res*(flag?1:-1);
+        return (int) res * (flag ? 1 : -1);
 
     }
 
