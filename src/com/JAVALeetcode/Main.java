@@ -1,5 +1,7 @@
 package com.JAVALeetcode;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
@@ -59,9 +61,27 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        myPow(1.0,32);
-        System.out.println();
+        T10_4_2();
+
     }
+
+    //region throwTest
+    public  static  void  throwChecked(int a)
+            throws  IOException{
+            System.out.println(a);
+    }
+
+    public  static  void  throwRuntime(int a) {
+        System.out.println(a*2);
+    }
+
+    public  static void T10_4_2()
+    {
+        //throwChecked(4);
+        //throwRuntime(8);
+
+    }
+    //endregion
 
     //region 50. Pow(x, n)   https://leetcode.com/problems/powx-n/
     static  double myPow(double x, int n) {
@@ -76,7 +96,6 @@ public class Main {
         double z=y*y;
         return  (n%2==0)?z:z*x;
     }
-
     //endregion
 
     //region 8. String to Integer (atoi)
@@ -129,9 +148,8 @@ public class Main {
         System.out.println(book);
     }
 
-
-    /* //房子数目
-
+    //region 房子数目
+    /*
         private static int count = 0;
         static int row = 0;
         static int column = 0;
@@ -191,6 +209,8 @@ public class Main {
             return 0;
         }
     */
+    //endregion
+
     //反转数组
     static void reverse(int[] arr) {
         for (int i = 0; i < arr.length / 2; i++) {
@@ -228,7 +248,8 @@ public class Main {
 
     }
 
-/*    //叫号系统
+    //region 叫号系统
+/*
     private static int count = 0;
     private static LinkedList<String> qNormal = new LinkedList<String>();
     private static LinkedList<String> qVIP = new LinkedList<String>();
@@ -362,7 +383,7 @@ public class Main {
         count = 0;
     }
 */
-
+//endregion
 
     //输入输出
     private static void Test_in_out() {
