@@ -13,6 +13,7 @@ import java.io.*;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Pattern;
 
 //region 初始化块的学习，静态初始化块的学习
@@ -68,32 +69,50 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        Test15_3_1();
+        System.out.println(removeDuplicateLetters("cbacdcbc"));
 
     }
 
+    //region Leetcode 316. Remove Duplicate Letters  https://leetcode.com/problems/remove-duplicate-letters/
+    static String removeDuplicateLetters(String s) {
+        if(s==null||s.length()==0)
+            return  s;
+        int[] count =new int[26];
+        int len=s.length();
+        for (int i=0;i<len;i++)
+            count[s.charAt(i)-'a']++;
+        int pos=0;
+        for(int i=0;i<len;i++){
+            if(s.charAt(i)<s.charAt(pos))
+                pos=i;
+            count[s.charAt(i)-'a']--;
+            if(count[s.charAt(i)-'a']==0)
+                break;
+        }
+        String charToRemove=String.valueOf(s.charAt(pos));
+        return charToRemove+removeDuplicateLetters(s.substring(pos+1).replace(charToRemove,""));
+    }
+
+    //endreigon
 
     //region Test15_3_1 FileOutputStream FileWriter
-    static  void  Test15_3_1()
-        throws IOException{
+    static void Test15_3_1()
+            throws IOException {
         try (
-            FileInputStream fis=new FileInputStream("JAVALeetcode.iml");
-            FileOutputStream fos=new FileOutputStream("new.txt");
-        ){
-            byte[] bbuf=new byte[32];
-            int hasRead=0;
-            while ((hasRead=fis.read(bbuf))>0)
-                fos.write(bbuf,0,hasRead);
-        }
-        catch (IOException ex){
+                FileInputStream fis = new FileInputStream("JAVALeetcode.iml");
+                FileOutputStream fos = new FileOutputStream("new.txt");
+        ) {
+            byte[] bbuf = new byte[32];
+            int hasRead = 0;
+            while ((hasRead = fis.read(bbuf)) > 0)
+                fos.write(bbuf, 0, hasRead);
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-        try (FileWriter fw=new FileWriter("poem.txt"))
-        {
+        try (FileWriter fw = new FileWriter("poem.txt")) {
             fw.write("dasdassd\r\n");
             fw.write("dasfafdsfdsfsdf");
-        }
-        catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 
@@ -101,51 +120,50 @@ public class Main {
     //endregion
 
     //region Test15_3 inputStream,FileReader 测试
-    public  static  void  Test15_3() throws  IOException{
-        FileInputStream fis=new FileInputStream("JAVALeetcode.iml");
-        byte[] bbuf=new byte[1024];
-        int hasRead=0;
-        while ((hasRead=fis.read(bbuf))>0){
-            System.out.print(new String(bbuf,0,hasRead));
+    public static void Test15_3() throws IOException {
+        FileInputStream fis = new FileInputStream("JAVALeetcode.iml");
+        byte[] bbuf = new byte[1024];
+        int hasRead = 0;
+        while ((hasRead = fis.read(bbuf)) > 0) {
+            System.out.print(new String(bbuf, 0, hasRead));
         }
         fis.close();
 
         try {
-            FileReader fr=new FileReader("JAVALeetcode.iml");
-            char[] cbuf=new char[32];
-            int hasReadC=0;
-            while ((hasReadC=fr.read(cbuf))>0){
-                System.out.println(new String(cbuf,0,hasReadC));
+            FileReader fr = new FileReader("JAVALeetcode.iml");
+            char[] cbuf = new char[32];
+            int hasReadC = 0;
+            while ((hasReadC = fr.read(cbuf)) > 0) {
+                System.out.println(new String(cbuf, 0, hasReadC));
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
     //endregion
 
     //region Test15_1 文件测试
-    public  static  void Test15_1()
-            throws IOException{
-        File file=new File(".");
+    public static void Test15_1()
+            throws IOException {
+        File file = new File(".");
         System.out.println(file.getName());
         System.out.println(file.getAbsoluteFile());
         System.out.println(file.getAbsoluteFile().getParent());
-        File tmpFile= File.createTempFile("aaa",".txt",file);
+        File tmpFile = File.createTempFile("aaa", ".txt", file);
         tmpFile.deleteOnExit();
-        File newfile=new File(System.currentTimeMillis()+"");
-        System.out.println("new file is exist  "+newfile.exists());
+        File newfile = new File(System.currentTimeMillis() + "");
+        System.out.println("new file is exist  " + newfile.exists());
         newfile.createNewFile();
-        boolean flag= newfile.mkdir();
-        System.out.println("is mkdir: "+flag);
-        String[] fileList=file.list();
+        boolean flag = newfile.mkdir();
+        System.out.println("is mkdir: " + flag);
+        String[] fileList = file.list();
         System.out.println("=========all the files is next:============");
-        for (String fileName:fileList){
+        for (String fileName : fileList) {
             System.out.println(fileName);
         }
-        File[] roots=File.listRoots();
+        File[] roots = File.listRoots();
         System.out.println("==========roots dir is next:==============");
-        for(File root :roots){
+        for (File root : roots) {
             System.out.println(root);
         }
     }
@@ -155,11 +173,11 @@ public class Main {
     static int compareVersion(String version1, String version2) {
         String[] strs1 = version1.split("\\.");
         String[] strs2 = version2.split("\\.");
-        int l1=strs1.length;
-        int l2=strs2.length;
+        int l1 = strs1.length;
+        int l2 = strs2.length;
         int[] ints1 = new int[l1];
         int[] ints2 = new int[l2];
-        int count = l1< l2 ? l1:l2;
+        int count = l1 < l2 ? l1 : l2;
         for (int i = 0; i < count; i++) {
             int a = Integer.parseInt(strs1[i]);
             int b = Integer.parseInt(strs2[i]);
@@ -168,19 +186,18 @@ public class Main {
             if (a > b)
                 return 1;
         }
-        if(l1==l2)
-            return  0;
-        else if(l1<l2){
-            for(int i=l1;i<l2;i++)
-                if(!Pattern.matches("0+",strs2[i]))
-                    return  -1;
-            return  0;
-        }
-        else {
-            for(int i=l2;i<l1;i++)
-                if(!Pattern.matches("0+",strs1[i]))
-                    return  1;
-            return  0;
+        if (l1 == l2)
+            return 0;
+        else if (l1 < l2) {
+            for (int i = l1; i < l2; i++)
+                if (!Pattern.matches("0+", strs2[i]))
+                    return -1;
+            return 0;
+        } else {
+            for (int i = l2; i < l1; i++)
+                if (!Pattern.matches("0+", strs1[i]))
+                    return 1;
+            return 0;
         }
     }
     //endregion
