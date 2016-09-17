@@ -9,9 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -70,9 +68,88 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        System.out.println(compareVersion("1.00", "1"));
+        Test15_3_1();
 
     }
+
+
+    //region Test15_3_1 FileOutputStream FileWriter
+    static  void  Test15_3_1()
+        throws IOException{
+        try (
+            FileInputStream fis=new FileInputStream("JAVALeetcode.iml");
+            FileOutputStream fos=new FileOutputStream("new.txt");
+        ){
+            byte[] bbuf=new byte[32];
+            int hasRead=0;
+            while ((hasRead=fis.read(bbuf))>0)
+                fos.write(bbuf,0,hasRead);
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+        try (FileWriter fw=new FileWriter("poem.txt"))
+        {
+            fw.write("dasdassd\r\n");
+            fw.write("dasfafdsfdsfsdf");
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+    }
+    //endregion
+
+    //region Test15_3 inputStream,FileReader 测试
+    public  static  void  Test15_3() throws  IOException{
+        FileInputStream fis=new FileInputStream("JAVALeetcode.iml");
+        byte[] bbuf=new byte[1024];
+        int hasRead=0;
+        while ((hasRead=fis.read(bbuf))>0){
+            System.out.print(new String(bbuf,0,hasRead));
+        }
+        fis.close();
+
+        try {
+            FileReader fr=new FileReader("JAVALeetcode.iml");
+            char[] cbuf=new char[32];
+            int hasReadC=0;
+            while ((hasReadC=fr.read(cbuf))>0){
+                System.out.println(new String(cbuf,0,hasReadC));
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    //endregion
+
+    //region Test15_1 文件测试
+    public  static  void Test15_1()
+            throws IOException{
+        File file=new File(".");
+        System.out.println(file.getName());
+        System.out.println(file.getAbsoluteFile());
+        System.out.println(file.getAbsoluteFile().getParent());
+        File tmpFile= File.createTempFile("aaa",".txt",file);
+        tmpFile.deleteOnExit();
+        File newfile=new File(System.currentTimeMillis()+"");
+        System.out.println("new file is exist  "+newfile.exists());
+        newfile.createNewFile();
+        boolean flag= newfile.mkdir();
+        System.out.println("is mkdir: "+flag);
+        String[] fileList=file.list();
+        System.out.println("=========all the files is next:============");
+        for (String fileName:fileList){
+            System.out.println(fileName);
+        }
+        File[] roots=File.listRoots();
+        System.out.println("==========roots dir is next:==============");
+        for(File root :roots){
+            System.out.println(root);
+        }
+    }
+    //endregion
 
     //region Leetcode:165. Compare Version Numbers https://leetcode.com/problems/compare-version-numbers/
     static int compareVersion(String version1, String version2) {
