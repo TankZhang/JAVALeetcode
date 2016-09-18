@@ -2,6 +2,7 @@ package com.JAVALeetcode;
 
 import com.sun.java.accessibility.util.java.awt.ButtonTranslator;
 import javafx.scene.layout.Pane;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,9 +70,65 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        System.out.println(removeDuplicateLetters("cbacdcbc"));
+        System.out.println(isInterleave("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
+                "babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
+                "babbbabbbaaabbababbbbababaabbabaabaaabbbbabbbaaabbbaaaaabbbbaabbaaabababbaaaaaabababbababaababbababbbababbbbaaaabaabbabbaaaaabbabbaaaabbbaabaaabaababaababbaaabbbbbabbbbaabbabaabbbbabaaabbababbabbabbab"));
 
     }
+
+    //region 97. Interleaving String https://leetcode.com/problems/interleaving-string/
+    // DP solution,from
+    public  static  boolean isInterleave1(String s1, String s2, String s3) {
+            return  true;
+    }
+    //BFS the answer is correct,but time limit exceeded
+    public static boolean isInterleave(String s1, String s2, String s3) {
+        int len1=s1.length();
+        int len2=s2.length();
+        int len3=s3.length();
+        if(len3!=len1+len2)
+            return  false;
+        int n1=0,n2=0,n3=0;
+        int[] res=new int[len3];
+        int[] choseRes=new int[len3];
+        for (int i=0;i<len3;i++){
+            if(n1<len1&&n2<len2&&s3.charAt(i)==s1.charAt(n1)&&s3.charAt(i)==s2.charAt(n2)){
+                res[i]=2;
+                choseRes[i]=1;
+                n1++;
+            }
+            else  if(n1<len1&&s3.charAt(i)==s1.charAt(n1)){
+                res[0]=1;
+                choseRes[i]=1;
+                n1++;
+            }
+            else if(n2<len2&&s3.charAt(i)==s2.charAt(n2)){
+                res[i]=1;
+                choseRes[i]=2;
+                n2++;
+            }
+            //回溯
+            else {
+                i--;
+                while (i>=0&&(!(res[i]==2&&choseRes[i]==1))){
+                    res[i]=0;
+                    if(choseRes[i]==1)
+                        n1--;
+                    else
+                        n2--;
+                    choseRes[i]=0;
+                    i--;
+                }
+                if(i<0)
+                    return  false;
+                choseRes[i]=2;
+                n1--;
+                n2++;
+            }
+        }
+        return  true;
+    }
+    //endregion
 
     //region Leetcode 316. Remove Duplicate Letters  https://leetcode.com/problems/remove-duplicate-letters/
     static String removeDuplicateLetters(String s) {
@@ -92,8 +149,7 @@ public class Main {
         String charToRemove=String.valueOf(s.charAt(pos));
         return charToRemove+removeDuplicateLetters(s.substring(pos+1).replace(charToRemove,""));
     }
-
-    //endreigon
+    //endregion
 
     //region Test15_3_1 FileOutputStream FileWriter
     static void Test15_3_1()
