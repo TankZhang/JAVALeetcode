@@ -70,11 +70,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        System.out.println(isInterleave("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
-                "babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
-                "babbbabbbaaabbababbbbababaabbabaabaaabbbbabbbaaabbbaaaaabbbbaabbaaabababbaaaaaabababbababaababbababbbababbbbaaaabaabbabbaaaaabbabbaaaabbbaabaaabaababaababbaaabbbbbabbbbaabbabaabbbbabaaabbababbabbabbab"));
-
+        double[] snow=new double[31];
+        long n=123;
+        System.out.println("5"+(2+1));
     }
+
 
     //region 97. Interleaving String https://leetcode.com/problems/interleaving-string/
     // DP solution,from
