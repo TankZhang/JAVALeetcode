@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.regex.Pattern;
 
 //region 初始化块的学习，静态初始化块的学习
@@ -70,11 +71,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        double[] snow=new double[31];
-        long n=123;
-        System.out.println("5"+(2+1));
+        fileWrite0923();
     }
 
+    //test fileIO
+    static  void  fileIO0923()
+    throws  IOException{
+        File localFile=new File("./src/com/JAVALeetcode/test.txt");
+        FileInputStream ins=new FileInputStream(localFile);
+        int countLen=ins.available();
+        byte[] m_binArray=new byte[countLen];
+        ins.read(m_binArray);
+        ins.close();
+        String s=new String(m_binArray,"UTF8");
+        System.out.println(s);
+    }
+    static  void  fileWrite0923()
+            throws  IOException{
+        File localFile=new File("./src/com/JAVALeetcode/test.txt");
+        FileOutputStream outs=new FileOutputStream(localFile);
+        String str="测试的呀";
+        byte[] bToWrite=str.getBytes();
+        outs.write(bToWrite);
+        outs.close();
+    }
 
     //region 97. Interleaving String https://leetcode.com/problems/interleaving-string/
     // DP solution,from
