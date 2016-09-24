@@ -71,103 +71,124 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Scanner sc = new Scanner(System.in);
         //String str = sc.next();
-        fileWrite0923();
+        System.out.println(isIsomorphic("foo", "bar"));
     }
 
-    //test fileIO
-    static  void  fileIO0923()
-    throws  IOException{
-        File localFile=new File("./src/com/JAVALeetcode/test.txt");
-        FileInputStream ins=new FileInputStream(localFile);
-        int countLen=ins.available();
-        byte[] m_binArray=new byte[countLen];
+    //region Leetcode 205. Isomorphic Strings
+    static boolean isIsomorphic(String s, String t) {
+        if (s.length() != t.length())
+            return false;
+        HashMap<Character, Character> res = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (res.containsKey(s.charAt(i))) {
+                if (res.get(s.charAt(i)) != t.charAt(i))
+                    return false;
+            }
+            else  if(res.containsValue(t.charAt(i)))
+                return  false;
+            else {
+                res.put(s.charAt(i), t.charAt(i));
+            }
+        }
+        return true;
+    }
+    //endregion
+
+    // region test fileIO
+    static void fileIO0923()
+            throws IOException {
+        File localFile = new File("./src/com/JAVALeetcode/test.txt");
+        FileInputStream ins = new FileInputStream(localFile);
+        int countLen = ins.available();
+        byte[] m_binArray = new byte[countLen];
         ins.read(m_binArray);
         ins.close();
-        String s=new String(m_binArray,"UTF8");
+        String s = new String(m_binArray, "UTF8");
         System.out.println(s);
     }
-    static  void  fileWrite0923()
-            throws  IOException{
-        File localFile=new File("./src/com/JAVALeetcode/test.txt");
-        FileOutputStream outs=new FileOutputStream(localFile);
-        String str="测试的呀";
-        byte[] bToWrite=str.getBytes();
+
+    static void fileWrite0923()
+            throws IOException {
+        File localFile = new File("./src/com/JAVALeetcode/test.txt");
+        FileOutputStream outs = new FileOutputStream(localFile);
+        String str = "测试的呀";
+        byte[] bToWrite = str.getBytes();
         outs.write(bToWrite);
         outs.close();
     }
+    //endregion
 
     //region 97. Interleaving String https://leetcode.com/problems/interleaving-string/
     // DP solution,from
-    public  static  boolean isInterleave1(String s1, String s2, String s3) {
-            return  true;
+    public static boolean isInterleave1(String s1, String s2, String s3) {
+        return true;
     }
+
     //BFS the answer is correct,but time limit exceeded
     public static boolean isInterleave(String s1, String s2, String s3) {
-        int len1=s1.length();
-        int len2=s2.length();
-        int len3=s3.length();
-        if(len3!=len1+len2)
-            return  false;
-        int n1=0,n2=0,n3=0;
-        int[] res=new int[len3];
-        int[] choseRes=new int[len3];
-        for (int i=0;i<len3;i++){
-            if(n1<len1&&n2<len2&&s3.charAt(i)==s1.charAt(n1)&&s3.charAt(i)==s2.charAt(n2)){
-                res[i]=2;
-                choseRes[i]=1;
+        int len1 = s1.length();
+        int len2 = s2.length();
+        int len3 = s3.length();
+        if (len3 != len1 + len2)
+            return false;
+        int n1 = 0, n2 = 0, n3 = 0;
+        int[] res = new int[len3];
+        int[] choseRes = new int[len3];
+        for (int i = 0; i < len3; i++) {
+            if (n1 < len1 && n2 < len2 && s3.charAt(i) == s1.charAt(n1) && s3.charAt(i) == s2.charAt(n2)) {
+                res[i] = 2;
+                choseRes[i] = 1;
                 n1++;
-            }
-            else  if(n1<len1&&s3.charAt(i)==s1.charAt(n1)){
-                res[0]=1;
-                choseRes[i]=1;
+            } else if (n1 < len1 && s3.charAt(i) == s1.charAt(n1)) {
+                res[0] = 1;
+                choseRes[i] = 1;
                 n1++;
-            }
-            else if(n2<len2&&s3.charAt(i)==s2.charAt(n2)){
-                res[i]=1;
-                choseRes[i]=2;
+            } else if (n2 < len2 && s3.charAt(i) == s2.charAt(n2)) {
+                res[i] = 1;
+                choseRes[i] = 2;
                 n2++;
             }
             //回溯
             else {
                 i--;
-                while (i>=0&&(!(res[i]==2&&choseRes[i]==1))){
-                    res[i]=0;
-                    if(choseRes[i]==1)
+                while (i >= 0 && (!(res[i] == 2 && choseRes[i] == 1))) {
+                    res[i] = 0;
+                    if (choseRes[i] == 1)
                         n1--;
                     else
                         n2--;
-                    choseRes[i]=0;
+                    choseRes[i] = 0;
                     i--;
                 }
-                if(i<0)
-                    return  false;
-                choseRes[i]=2;
+                if (i < 0)
+                    return false;
+                choseRes[i] = 2;
                 n1--;
                 n2++;
             }
         }
-        return  true;
+        return true;
     }
     //endregion
 
     //region Leetcode 316. Remove Duplicate Letters  https://leetcode.com/problems/remove-duplicate-letters/
     static String removeDuplicateLetters(String s) {
-        if(s==null||s.length()==0)
-            return  s;
-        int[] count =new int[26];
-        int len=s.length();
-        for (int i=0;i<len;i++)
-            count[s.charAt(i)-'a']++;
-        int pos=0;
-        for(int i=0;i<len;i++){
-            if(s.charAt(i)<s.charAt(pos))
-                pos=i;
-            count[s.charAt(i)-'a']--;
-            if(count[s.charAt(i)-'a']==0)
+        if (s == null || s.length() == 0)
+            return s;
+        int[] count = new int[26];
+        int len = s.length();
+        for (int i = 0; i < len; i++)
+            count[s.charAt(i) - 'a']++;
+        int pos = 0;
+        for (int i = 0; i < len; i++) {
+            if (s.charAt(i) < s.charAt(pos))
+                pos = i;
+            count[s.charAt(i) - 'a']--;
+            if (count[s.charAt(i) - 'a'] == 0)
                 break;
         }
-        String charToRemove=String.valueOf(s.charAt(pos));
-        return charToRemove+removeDuplicateLetters(s.substring(pos+1).replace(charToRemove,""));
+        String charToRemove = String.valueOf(s.charAt(pos));
+        return charToRemove + removeDuplicateLetters(s.substring(pos + 1).replace(charToRemove, ""));
     }
     //endregion
 
